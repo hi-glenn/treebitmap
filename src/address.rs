@@ -97,6 +97,7 @@ pub trait Address: Copy {
 impl Address for Ipv4Addr {
     type Nibbles = [u8; 8];
 
+    #[inline(always)]
     fn nibbles(self) -> Self::Nibbles {
         let mut ret: Self::Nibbles = [0; 8];
         let bytes: [u8; 4] = self.octets();
@@ -122,6 +123,7 @@ impl Address for Ipv4Addr {
         Self::new(ret[0], ret[1], ret[2], ret[3])
     }
 
+    #[inline(always)]
     fn mask(self, masklen: u32) -> Self {
         debug_assert!(masklen <= 32);
         let ip = u32::from(self);
@@ -136,6 +138,7 @@ impl Address for Ipv4Addr {
 impl Address for Ipv6Addr {
     type Nibbles = [u8; 32];
 
+    #[inline(always)]
     fn nibbles(self) -> Self::Nibbles {
         let mut ret: Self::Nibbles = [0; 32];
         let bytes: [u8; 16] = self.octets();
@@ -169,6 +172,7 @@ impl Address for Ipv6Addr {
         )
     }
 
+    #[inline(always)]
     fn mask(self, masklen: u32) -> Self {
         debug_assert!(masklen <= 128);
         let mut ret = self.segments();

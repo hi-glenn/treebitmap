@@ -119,7 +119,8 @@ impl<T: Sized> BucketVec<T> {
         self.freelist.push(slot)
     }
 
-    #[inline]
+    // #[inline]
+    #[inline(always)]
     pub fn get_slot_entry(&self, slot: u32, index: u32) -> &T {
         debug_assert!(slot % self.spacing == 0);
         let offset = slot + index;
@@ -233,7 +234,8 @@ static LEN2BUCKET: [u32; 33] = [
     8,
 ];
 
-#[inline]
+// #[inline]
+#[inline(always)]
 pub fn choose_bucket(len: u32) -> u32 {
     debug_assert!(len < 33);
     unsafe { *LEN2BUCKET.get_unchecked(len as usize) }
@@ -263,7 +265,7 @@ pub struct AllocatorHandle {
 }
 
 impl AllocatorHandle {
-    #[inline]
+    #[inline(always)]
     pub fn generate(len: u32, offset: u32) -> AllocatorHandle {
         AllocatorHandle { len, offset }
     }
@@ -347,7 +349,8 @@ impl<T: Sized> Allocator<T> {
         self.buckets[bucket_index].replace_slot_entry(hdl.offset, index, value)
     }
 
-    #[inline]
+    // #[inline]
+    #[inline(always)]
     pub fn get(&self, hdl: &AllocatorHandle, index: u32) -> &T {
         let bucket_index = choose_bucket(hdl.len) as usize;
         self.buckets[bucket_index].get_slot_entry(hdl.offset, index)

@@ -199,6 +199,7 @@ where
     /// let result = table.longest_match(lookupip);
     /// assert_eq!(result, Some((less_specific, 32, &"foo")));
     /// ```
+    #[inline(always)]
     pub fn longest_match(&self, ip: A) -> Option<(A, u32, &T)> {
         match self.inner.longest_match(&ip.nibbles().as_ref()) {
             Some((bits_matched, value)) => Some((ip.mask(bits_matched), bits_matched, value)),

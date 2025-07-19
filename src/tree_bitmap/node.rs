@@ -361,7 +361,8 @@ impl Node {
         }
     }
 
-    #[inline]
+    // #[inline]
+    #[inline(always)]
     pub fn match_internal(&self, match_mask: u32) -> MatchResult {
         let result_match = self.internal() & match_mask;
         if result_match > 0 {
@@ -376,7 +377,8 @@ impl Node {
         MatchResult::None
     }
 
-    #[inline]
+    // #[inline]
+    #[inline(always)]
     pub fn match_external(&self, match_mask: u32) -> MatchResult {
         let child_match = self.external() & match_mask;
         if child_match > 0 {

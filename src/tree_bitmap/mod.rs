@@ -45,6 +45,7 @@ impl<T: Sized> TreeBitmap<T> {
     }
 
     /// Returns handle to root node.
+    #[inline(always)]
     fn root_handle(&self) -> AllocatorHandle {
         AllocatorHandle::generate(1, 0)
     }
@@ -101,6 +102,7 @@ impl<T: Sized> TreeBitmap<T> {
         // note: we do not need to touch the external bits
     }
 
+    #[inline(always)]
     fn longest_match_internal(&self, nibbles: &[u8]) -> Option<(AllocatorHandle, u32, u32)> {
         let mut cur_hdl = self.root_handle();
         let mut cur_index = 0;
@@ -147,6 +149,7 @@ impl<T: Sized> TreeBitmap<T> {
     }
 
     /// longest match lookup of ```nibbles```. Returns bits matched as u32, and reference to T.
+    #[inline(always)]
     pub fn longest_match(&self, nibbles: &[u8]) -> Option<(u32, &T)> {
         match self.longest_match_internal(&nibbles) {
             Some((result_hdl, result_index, bits_matched)) => {
